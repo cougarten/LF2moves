@@ -1,0 +1,1197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Little Fighter 2 - Character Database</title>
+    <style>
+        .character-image {
+            image-rendering: crisp-edges;
+            display: block;
+            margin: 0 auto 16px auto;
+            width: 120px;
+            height: 120px;
+            object-fit: contain;
+            border-radius: 12px;
+            background: #222;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.3);
+        }
+        .character-image-small {
+            width: 32px;
+            height: 32px;
+            object-fit: contain;
+            border-radius: 50%;
+            margin-right: 10px;
+            background: #222;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+        }
+        .move-image-img {
+            width: 40px;
+            height: 40px;
+            object-fit: contain;
+            border-radius: 8px;
+            margin-right: 12px;
+            background: #222;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.15);
+        }
+        .move-image-img {
+            width: 40px;
+            height: 40px;
+            object-fit: contain;
+            border-radius: 8px;
+            margin-right: 12px;
+            background: #222;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.15);
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0f0f23, #1a1a2e, #16213e);
+            color: #e0e0e0;
+            min-height: 100vh;
+        }
+        
+        .header {
+            background: #051d56;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+        }
+        
+        .header h1 {
+            color: #ffffff;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 0 0 20px rgb(0, 0, 0);
+        }
+        
+        .header p {
+            color: #888;
+            font-size: 1.1em;
+        }
+        
+        .container {
+            display: flex;
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 20px;
+            gap: 20px;
+        }
+        
+        .character-list {
+            flex: 0 0 300px;
+            background: rgba(45, 45, 45, 0.9);
+            border-radius: 15px;
+            padding: 20px;
+            height: fit-content;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+        
+        .character-list h2 {
+            color: #FFD700;
+            margin-bottom: 20px;
+            text-align: center;
+            font-size: 1.5em;
+        }
+        
+        .character-item {
+            display: flex;
+            align-items: center;
+            padding: 12px;
+            margin-bottom: 8px;
+            background: linear-gradient(135deg, #333, #2a2a2a);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+        
+        .character-item:hover {
+            background: linear-gradient(135deg, #4a4a4a, #3a3a3a);
+            transform: translateX(5px);
+        }
+        
+        .character-item.active {
+            border-color: #4CAF50;
+            box-shadow: 0 0 15px rgba(76, 175, 80, 0.3);
+        }
+        
+        .character-avatar {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(45deg, #4CAF50, #45a049);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 12px;
+            font-weight: bold;
+            font-size: 1.2em;
+            color: white;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+        }
+        
+        .character-name {
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+        
+        .character-cards {
+            flex: 1;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+        
+        .character-cards.dual {
+            grid-template-columns: 1fr 1fr;
+        }
+        
+        .character-card {
+            background: linear-gradient(145deg, #2d2d2d, #1f1f1f);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+            border: 1px solid #444;
+        }
+        
+        .character-card h2 {
+            color: #FFD700;
+            font-size: 2em;
+            margin-bottom: 20px;
+            text-align: center;
+            border-bottom: 2px solid #4CAF50;
+            padding-bottom: 15px;
+        }
+        
+        .moves-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 15px;
+        }
+        
+        .move-card {
+            background: linear-gradient(135deg, #333, #2a2a2a);
+            border-radius: 10px;
+            padding: 15px;
+            border-left: 4px solid #FF6B6B;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .move-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.02), transparent);
+            transform: translateX(-100%);
+            transition: transform 0.6s;
+        }
+
+        
+        .move-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+        
+        .move-image {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(45deg, #FF6B6B, #FF8E8E);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 12px;
+            font-weight: bold;
+            color: white;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+        }
+        
+        .move-name {
+            color: #FF6B6B;
+            font-weight: bold;
+            font-size: 1.2em;
+            flex: 1;
+        }
+        
+        .move-details {
+            margin-bottom: 10px;
+        }
+        
+        .move-cost, .move-input {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 4px 8px;
+            border-radius: 15px;
+            font-size: 0.85em;
+            margin: 2px 4px 2px 0;
+        }
+        
+        .move-cost {
+            color: #FFA500;
+            background: rgba(255, 165, 0, 0.2);
+        }
+        
+        .move-input {
+            color: #034d55;
+            font-size: 20px;
+            display: flex;
+            align-items: center;
+            min-height: 46px;
+            margin: -6px 0px -8px -15px;
+            letter-spacing: 0;
+            font-weight: 900;
+            padding-top: 1px;
+            gap: 6px;
+        }
+        .move-details {
+            background: #f9cbcb;
+            border-radius: 10px;
+            padding: 8px 18px;
+            margin: 8px 0 8px 0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        }
+        /* Robust, class-based move visual styling */
+        .move-attack {
+            font-weight: 900;
+            color: #fff;
+            background: #d12a2a;
+            border-radius: 50%;
+            width: 1.5em;
+            height: 1.5em;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1em;
+            box-shadow: 0 0 0 2px #d12a2a44;
+            letter-spacing: 0.04em;
+            margin: 0 2px;
+            position: relative;
+            padding-bottom: 2.5px;
+            padding-left: 1px;
+        }
+        .move-jump {
+            font-weight: 900;
+            color: #fff;
+            background: #1ca81c;
+            border-radius: 50%;
+            width: 1.5em;
+            height: 1.5em;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1em;
+            box-shadow: 0 0 0 2px #1ca81c44;
+            letter-spacing: 0.04em;
+            margin: 0 2px;
+            position: relative;
+            padding-bottom: 2.5px;
+            padding-left: 1px;
+        }
+        .move-defense {
+            font-weight: 900;
+            color: #fff;
+            background: #2363d1;
+            border-radius: 50%;
+            width: 1.5em;
+            height: 1.5em;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1em;
+            box-shadow: 0 0 0 2px #2363d144;
+            letter-spacing: 0.04em;
+            margin: 0 2px;
+            position: relative;
+            padding-bottom: 2.5px;
+            padding-left: 1px;
+        }
+        .move-jump {
+            font-weight: 900;
+            color: #fff;
+            background: #1ca81c;
+            border-radius: 50%;
+            width: 1.5em;
+            height: 1.5em;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1em;
+            box-shadow: 0 0 0 2px #1ca81c44;
+            letter-spacing: 0.04em;
+            margin: 0 2px;
+        }
+        .move-defense {
+            font-weight: 900;
+            color: #fff;
+            background: #2363d1;
+            border-radius: 50%;
+            width: 1.5em;
+            height: 1.5em;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1em;
+            box-shadow: 0 0 0 2px #2363d144;
+            letter-spacing: 0.04em;
+            margin: 0 2px;
+        }
+        .move-run {
+            font-size: 1.7em;
+            display: inline-block;
+            transform: scaleX(-1); /* mirror emoji */
+            margin: 0 4px;
+        }
+        .move-up, .move-down, .move-left, .move-right {
+            font-weight: 900;
+            color: #111;
+            font-size: 1.5em;
+            font-family: 'Segoe UI', 'Arial', sans-serif;
+            margin: 0 2px;
+        }
+        .move-up {
+            display: inline-block;
+            transform: translateY(-4px);
+        }
+        .move-left, .move-right {
+            display: inline-block;
+            transform: translateY(0px);
+        }
+        .move-down {
+            display: inline-block;
+            transform: translateY(3px);
+        }
+        
+        .mana-next-title {
+            background: #2196f3;
+            color: #fff;
+            border-radius: 8px;
+            padding: 2px 12px;
+            margin-left: 12px;
+            font-size: 0.9em;
+            font-weight: bold;
+            vertical-align: middle;
+            display: inline-block;
+        }
+        
+        .move-description {
+            color: #ccc;
+            line-height: 1.4;
+            margin-top: 8px;
+            font-size: 0.95em;
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #666;
+            font-size: 1.2em;
+        }
+        
+        .empty-state .icon {
+            font-size: 4em;
+            margin-bottom: 20px;
+            opacity: 0.5;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+            
+            .character-list {
+                flex: none;
+            }
+            
+            .character-cards.dual {
+                grid-template-columns: 1fr;
+            }
+            
+            .moves-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <img src="title.png" alt="Little Fighter 2" style="max-width: 600px; width: auto; height: 118px; display: block; margin: 0 auto;" />
+
+    </div>
+    
+    <div class="container">
+        <div class="character-list">
+            <h2>Characters</h2>
+            <div id="characterList"></div>
+        </div>
+        
+        <div class="character-cards" id="characterCards">
+            <div class="empty-state">
+                <div class="icon">🥊</div>
+                <p>Select a character to view their moves</p>
+                <p style="font-size: 0.9em; margin-top: 10px; color: #888;">
+                    Click multiple characters to compare them side by side
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Character data extracted from the raw data
+        const charactersData = {
+            "Mark": {
+                "image": "mark.bmp",
+                "moves": [
+                    {
+                        "name": "Crash Punch",
+                        "image": "macp.bmp",
+                        "cost": "0mp",
+                        "input": "D + > + A (+A)",
+                        "description": "Mark gives 1 or 2 powerful punches"
+                    },
+                    {
+                        "name": "Body Attack", 
+                        "image": "maba.bmp",
+                        "cost": "0mp + ...",
+                        "input": "D + > + J",
+                        "description": "Mark uses his shoulder as shield, with this attack he can hit several enemies"
+                    }
+                ]
+            },
+            "Jack": {
+                "image": "jack.bmp",
+                "moves": [
+                    {
+                        "name": "Energy Blast",
+                        "image": "jaeb.bmp", 
+                        "cost": "10mp",
+                        "input": "D + > + A",
+                        "description": "Jack creates one ball of energy and fires it at an enemy"
+                    },
+                    {
+                        "name": "Flash Kick",
+                        "image": "jafk.bmp",
+                        "cost": "25mp", 
+                        "input": "D + ^ + A",
+                        "description": "Jack kicks a couple of enemies right into the air"
+                    }
+                ]
+            },
+            "Sorcerer": {
+                "image": "sorcerer.bmp",
+                "moves": [
+                    {
+                        "name": "Ice Blast",
+                        "image": "soib.bmp",
+                        "cost": "15mp",
+                        "input": "D + > + A",
+                        "description": "This is a very large and slow ball. If you get hit by it you will get frozen"
+                    },
+                    {
+                        "name": "Fire Ball",
+                        "image": "sofb.bmp", 
+                        "cost": "20mp",
+                        "input": "D + > + A",
+                        "description": "If you get hit by this fireball you will be torched, if you touch somebody you will torch him too"
+                    },
+                    {
+                        "name": "Heal (Others)",
+                        "image": "soho.bmp",
+                        "cost": "70mp",
+                        "input": "D + ^ + J", 
+                        "description": "This spell creates a sparkling field if somebody walks into it he will get healed"
+                    },
+                    {
+                        "name": "Heal (Myself)",
+                        "image": "sohm.bmp",
+                        "cost": "50mp",
+                        "input": "D + v + J",
+                        "description": "This spell heals yourself a little"
+                    }
+                ]
+            },
+            "Henry": {
+                "image": "henry.bmp",
+                "moves": [
+                    {
+                        "name": "Dragon Palm",
+                        "image": "hedp.bmp",
+                        "cost": "30mp",
+                        "input": "D + > + A",
+                        "description": "This spell causes a shockwave to hurt multiple enemies"
+                    },
+                    {
+                        "name": "Multiple Shot", 
+                        "image": "hems.bmp",
+                        "cost": "20mp",
+                        "input": "D + J + A ( + A + A...)",
+                        "description": "Five arrows in one shot to hit five enemies instead of one"
+                    },
+                    {
+                        "name": "Critical Shot",
+                        "image": "hecs.bmp",
+                        "cost": "40mp",
+                        "input": "D + > + A",
+                        "description": "A burning arrow which knocks down everything on it's way"
+                    },
+                    {
+                        "name": "Sonata of the Death",
+                        "image": "hesd.bmp",
+                        "cost": "60mp",
+                        "input": "D + ^ + A",
+                        "description": "This beautiful melody causes an anti-gravity field where your enemies will fly around"
+                    }
+                ]
+            },
+            "John": {
+                "image": "john.bmp", 
+                "moves": [
+                    {
+                        "name": "Energy Blast",
+                        "image": "joeb.bmp",
+                        "cost": "25mp",
+                        "input": "D + > + A",
+                        "description": "A purple energy ball to hit some enemies at range"
+                    },
+                    {
+                        "name": "Energy Disk",
+                        "image": "joed.bmp",
+                        "cost": "50mp",
+                        "input": "D + > + A",
+                        "description": "This enemy searching disk knocks every enemy down on it's way"
+                    },
+                    {
+                        "name": "Energy Shield",
+                        "image": "joes.bmp",
+                        "cost": "20mp", 
+                        "input": "D + ^ + A",
+                        "description": "Shield what blocks every attack and reflects energy blasts"
+                    }
+                ]
+            },
+            "Deep": {
+                "image": "deep.bmp",
+                "moves": [
+                    {
+                        "name": "Blast",
+                        "image": "deeb.bmp",
+                        "cost": "15mp",
+                        "input": "D + > + A ( + A + A...)",
+                        "description": "A powerfull blast from his sword but it falls apart after a few yards"
+                    },
+                    {
+                        "name": "Strike", 
+                        "image": "des.bmp",
+                        "cost": "10mp",
+                        "input": "D + v + A ( + A + A...)",
+                        "description": "This move can be used to kick all enemies who are close to you"
+                    },
+                    {
+                        "name": "Leap Attack",
+                        "image": "dela.bmp",
+                        "cost": "25mp",
+                        "input": "D + ^ + J + A",
+                        "description": "If your enemies are jumping around slam them back to earth with this attack"
+                    },
+                    {
+                        "name": "Dashing Strafe",
+                        "image": "deds.bmp",
+                        "cost": "20mp",
+                        "input": "RUN + A",
+                        "description": "This move is excellent to attack a group of bad guys"
+                    }
+                ]
+            },
+            "Rudolf": {
+                "image": "rudolf.bmp",
+                "moves": [
+                    {
+                        "name": "Jump Attack",
+                        "image": "rula.bmp", 
+                        "cost": "15mp",
+                        "input": "D + ^ + A",
+                        "description": "Cut a few enemies with this great jump attack"
+                    },
+                    {
+                        "name": "Multiple Ninja Star",
+                        "image": "rumns.bmp",
+                        "cost": "25mp",
+                        "input": "D + > + A ( + A + A...)",
+                        "description": "Throw five stars in one shot to hit 5 enemies instead of 1"
+                    },
+                    {
+                        "name": "Transform",
+                        "image": "rut.bmp",
+                        "cost": "0mp",
+                        "input": "Grip Other + D + J + A", 
+                        "description": "This will transform you into your enemy. NOTE: once you transformed into somebody you can toggle your character without any costs with D + J + A"
+                    },
+                    {
+                        "name": "Hide",
+                        "image": "ruh.bmp",
+                        "cost": "30mp",
+                        "input": "D + v + A",
+                        "description": "This makes you invisible, after a few seconds you will turn visible again"
+                    },
+                    {
+                        "name": "Double",
+                        "image": "rud.bmp",
+                        "cost": "50mp",
+                        "input": "D + J + A",
+                        "description": "This spell makes 2 copies of you for extra fighting power but if they get hit they die"
+                    }
+                ]
+            },
+            "Louis": {
+                "image": "louis.bmp",
+                "moves": [
+                    {
+                        "name": "Thunder Punch",
+                        "image": "lotp1.bmp",
+                        "cost": "20mp",
+                        "input": "RUN + A",
+                        "description": "A powerful punch to knock down a couple of enemies"
+                    },
+                    {
+                        "name": "Thunder Punch 2",
+                        "image": "lotp2.bmp",
+                        "cost": "25mp",
+                        "input": "RUN + J + A", 
+                        "description": "A powerful punch to knock down a couple of enemies"
+                    },
+                    {
+                        "name": "Thunder Kick",
+                        "image": "lotk.bmp",
+                        "cost": "30mp",
+                        "input": "RUN + J",
+                        "description": "This could be usefull if you want to kick a group in their faces"
+                    },
+                    {
+                        "name": "Whirlwind Throw",
+                        "image": "lowt.bmp",
+                        "cost": "40mp",
+                        "input": "D + ^ + J ( + J + J...)",
+                        "description": "Throw an enemy to his friends with this beautiful whirlwind effect"
+                    },
+                    {
+                        "name": "Phoenix Palm",
+                        "image": "lopp.bmp",
+                        "cost": "35mp",
+                        "input": "D + > + A",
+                        "description": "This spell creates a shockwave to the right AND to the left"
+                    },
+                    {
+                        "name": "Armor Break",
+                        "image": "lot.bmp",
+                        "cost": "Special",
+                        "input": "D + J + A (when HP < 33%)",
+                        "description": "Louis will break out of his armor, damaging everyone near him, and transform into Louis Ex. Every piece of his armor counts as a heavy weapon"
+                    }
+                ]
+            },
+            "Firen": {
+                "image": "firen.bmp",
+                "moves": [
+                    {
+                        "name": "Fire Ball",
+                        "image": "fifb.bmp",
+                        "cost": "20mp",
+                        "input": "D + > + A ( + A + A)",
+                        "description": "A superfast fire ball burns everything on it's way"
+                    },
+                    {
+                        "name": "Blaze",
+                        "image": "fib.bmp",
+                        "cost": "15mp + ...",
+                        "input": "D + v + A",
+                        "description": "This attack torches you and leaves a fire behind after each step"
+                    },
+                    {
+                        "name": "Inferno",
+                        "image": "fii.bmp",
+                        "cost": "30mp + ...", 
+                        "input": "D + ^ + A",
+                        "description": "A great flame burns your enemies"
+                    },
+                    {
+                        "name": "Explosion",
+                        "image": "fie.bmp",
+                        "cost": "60mp + 8hp",
+                        "input": "D + J + A",
+                        "description": "An incredible explosion blows your enemies away"
+                    },
+                    {
+                        "name": "Fuse",
+                        "image": "fzav.bmp",
+                        "cost": "Special",
+                        "input": "RUN to Freeze (when HP < 33%)",
+                        "description": "When Firen and Freeze have both less then 33% of their HP left and they RUN to each other a big explosion will follow and one of the players will gain control of the new character: Firzen"
+                    }
+                ]
+            },
+            "LouisEX": {
+                "image": "louisex.bmp",
+                "moves": [
+                    {
+                        "name": "Thunder Punch",
+                        "image": "loetp1.bmp",
+                        "cost": "6mp",
+                        "input": "RUN + A",
+                        "description": "Enhanced version of Louis' Thunder Punch"
+                    },
+                    {
+                        "name": "Thunder Punch 2",
+                        "image": "loetp2.bmp",
+                        "cost": "8mp",
+                        "input": "RUN + J + A",
+                        "description": "Enhanced version of Louis' Thunder Punch 2"
+                    },
+                    {
+                        "name": "Running Attack",
+                        "image": "loera.bmp",
+                        "cost": "10mp",
+                        "input": "Run",
+                        "description": "While running he uses his staff as shield and he pierces enemies with it"
+                    },
+                    {
+                        "name": "Phoenix Dance",
+                        "image": "loepd.bmp",
+                        "cost": "45mp",
+                        "input": "D + v + A",
+                        "description": "A couple of powerfull dashes will kick every enemy near you"
+                    },
+                    {
+                        "name": "Phoenix Palm",
+                        "image": "loepp.bmp", 
+                        "cost": "35mp",
+                        "input": "D + > + A",
+                        "description": "Enhanced version of Louis' Phoenix Palm"
+                    }
+                ]
+            },
+            "Freeze": {
+                "image": "freeze.bmp",
+                "moves": [
+                    {
+                        "name": "Ice Blast",
+                        "image": "frib.bmp",
+                        "cost": "25mp",
+                        "input": "D + > + A",
+                        "description": "This is a very large and slow ball. It will split in two balls if it gets hit by an energy blast"
+                    },
+                    {
+                        "name": "Summon Sword",
+                        "image": "frss.bmp",
+                        "cost": "40mp",
+                        "input": "D + ^ + A",
+                        "description": "This spell creates a sword of ice"
+                    },
+                    {
+                        "name": "Icicle",
+                        "image": "fri.bmp",
+                        "cost": "35mp",
+                        "input": "D + v + A",
+                        "description": "This creates 3 pilars of ice, this could be usefull to freeze a couple of enemies"
+                    },
+                    {
+                        "name": "Whirlwind",
+                        "image": "frw.bmp",
+                        "cost": "60mp",
+                        "input": "D + J + A",
+                        "description": "A great whirlwind removes all enemies near you"
+                    },
+                    {
+                        "name": "Fuse",
+                        "image": "fzav.bmp",
+                        "cost": "Special",
+                        "input": "RUN to Firen (when HP < 33%)",
+                        "description": "When Firen and Freeze have both less then 33% of their HP and they RUN to each other a big explosion will follow and one of the players will gain control of the new character: Firzen"
+                    }
+                ]
+            },
+            "Woody": {
+                "image": "woody.bmp",
+                "moves": [
+                    {
+                        "name": "Flip Kick",
+                        "image": "wofk.bmp",
+                        "cost": "15mp",
+                        "input": "D + ^ + A",
+                        "description": "This attack is usefull to kick a few enemies into the air"
+                    },
+                    {
+                        "name": "Turning Kick",
+                        "image": "wotk.bmp",
+                        "cost": "20mp",
+                        "input": "D + > + A",
+                        "description": "This attack can be used to hurt a group enemies"
+                    },
+                    {
+                        "name": "Teleport (to Friend)",
+                        "image": "wot.bmp",
+                        "cost": "25mp",
+                        "input": "D + v + A",
+                        "description": "This moves you instantly to a friend"
+                    },
+                    {
+                        "name": "Teleport (to Enemy)",
+                        "image": "wote.bmp",
+                        "cost": "25mp",
+                        "input": "D + ^ + J",
+                        "description": "This moves you instantly to an enemy"
+                    },
+                    {
+                        "name": "Energy Bow",
+                        "image": "woeb.bmp",
+                        "cost": "30mp",
+                        "input": "D + > + J",
+                        "description": "This creates two powerfull energy bows"
+                    },
+                    {
+                        "name": "Tiger Dash",
+                        "image": "wotd.bmp",
+                        "cost": "40mp",
+                        "input": "D + J + A",
+                        "description": "This very powerfull move kicks a group of enemies out of your screen"
+                    }
+                ]
+            },
+            "Davis": {
+                "image": "davis.bmp",
+                "moves": [
+                    {
+                        "name": "Leap Attack",
+                        "image": "dala.bmp",
+                        "cost": "5mp",
+                        "input": "D + ^ + A",
+                        "description": "If your enemies are jumping around slam them back to earth with this attack"
+                    },
+                    {
+                        "name": "Energy Blast",
+                        "image": "daeb.bmp",
+                        "cost": "20mp",
+                        "input": "D + > + A( + A + A...)",
+                        "description": "You can fire these little energy balls very fast"
+                    },
+                    {
+                        "name": "Strafe",
+                        "image": "das.bmp",
+                        "cost": "25mp",
+                        "input": "D + v + A",
+                        "description": "A couple of punches following each other rapidly"
+                    },
+                    {
+                        "name": "Dragon Punch",
+                        "image": "dadp.bmp",
+                        "cost": "30mp",
+                        "input": "D + ^ + J",
+                        "description": "A powerful punch slams every enemy into the air"
+                    }
+                ]
+            },
+            "Dennis": {
+                "image": "dennis.bmp",
+                "moves": [
+                    {
+                        "name": "Energy Blast",
+                        "image": "deneb.bmp",
+                        "cost": "20mp",
+                        "input": "D + > + A",
+                        "description": "A couple of kicks following each other rapidly"
+                    },
+                    {
+                        "name": "Strafe",
+                        "image": "dens.bmp",
+                        "cost": "25mp",
+                        "input": "D + v + A",
+                        "description": "A couple of kicks following each other rapidly"
+                    },
+                    {
+                        "name": "Whirlwind Kick",
+                        "image": "denwk.bmp",
+                        "cost": "15mp + ...",
+                        "input": "D + J + A",
+                        "description": "With this attack you can kick lots of enemies"
+                    },
+                    {
+                        "name": "Chasing Blast",
+                        "image": "dencb.bmp",
+                        "cost": "35mp",
+                        "input": "D + ^ + A",
+                        "description": "Energy blast chases an enemy down and blasts him away"
+                    }
+                ]
+            }
+        };
+
+        let selectedCharacters = [];
+        
+        function initializeApp() {
+            renderCharacterList();
+        }
+        
+        function renderCharacterList() {
+            const characterList = document.getElementById('characterList');
+            characterList.innerHTML = '';
+            
+            Object.keys(charactersData).forEach(characterName => {
+                const characterItem = document.createElement('div');
+                characterItem.className = 'character-item';
+                characterItem.onclick = () => toggleCharacter(characterName);
+                
+                const avatarImg = document.createElement('img');
+                avatarImg.className = 'character-image-small';
+                avatarImg.src = `pics/portrets/${charactersData[characterName].image}`;
+                avatarImg.alt = characterName;
+                
+                const name = document.createElement('div');
+                name.className = 'character-name';
+                name.textContent = characterName;
+                
+                characterItem.appendChild(avatarImg);
+                characterItem.appendChild(name);
+                characterList.appendChild(characterItem);
+            });
+        }
+        
+        function toggleCharacter(characterName) {
+            selectedCharacters = selectedCharacters.filter(c => c !== characterName);
+            selectedCharacters.unshift(characterName);
+            if (selectedCharacters.length > 2) selectedCharacters.length = 2;
+            updateCharacterList();
+            renderCharacterCards();
+        }
+        
+        function updateCharacterList() {
+            const characterItems = document.querySelectorAll('.character-item');
+            characterItems.forEach((item, index) => {
+                const characterName = Object.keys(charactersData)[index];
+                if (selectedCharacters.includes(characterName)) {
+                    item.classList.add('active');
+                } else {
+                    item.classList.remove('active');
+                }
+            });
+        }
+        
+        function renderCharacterCards() {
+            const characterCards = document.getElementById('characterCards');
+            
+            if (selectedCharacters.length === 0) {
+                characterCards.innerHTML = `
+                    <div class="empty-state">
+                        <div class="icon">🥊</div>
+                        <p>Select a character to view their moves</p>
+                        <p style="font-size: 0.9em; margin-top: 10px; color: #888;">
+                            Click multiple characters to compare them side by side
+                        </p>
+                    </div>
+                `;
+                characterCards.className = 'character-cards';
+                return;
+            }
+            
+            characterCards.className = selectedCharacters.length === 2 ? 'character-cards dual' : 'character-cards';
+            characterCards.innerHTML = '';
+            
+            selectedCharacters.forEach(characterName => {
+                const characterData = charactersData[characterName];
+                const characterCard = createCharacterCard(characterName, characterData);
+                characterCards.appendChild(characterCard);
+            });
+        }
+        
+        function createCharacterCard(characterName, characterData) {
+            const card = document.createElement('div');
+            card.className = 'character-card';
+            
+            const image = document.createElement('img');
+            image.className = 'character-image';
+            image.src = `pics/portrets/${characterData.image}`;
+            image.alt = characterName;
+            card.appendChild(image);
+            
+            const header = document.createElement('h2');
+            header.textContent = characterName;
+            card.appendChild(header);
+            
+            const movesGrid = document.createElement('div');
+            movesGrid.className = 'moves-grid';
+            
+            characterData.moves.forEach(move => {
+                const moveCard = createMoveCard(move);
+                movesGrid.appendChild(moveCard);
+            });
+            
+            card.appendChild(movesGrid);
+            return card;
+        }
+        
+        function createMoveCard(move) {
+            const moveCard = document.createElement('div');
+            moveCard.className = 'move-card';
+            
+            // Left: image in black square
+            const imageSquare = document.createElement('div');
+            imageSquare.className = 'move-image-square';
+            const moveImage = document.createElement('img');
+            moveImage.className = 'move-image-img';
+            moveImage.src = `pics/attacks/${move.image}`;
+            moveImage.alt = move.name;
+            imageSquare.appendChild(moveImage);
+            moveCard.appendChild(imageSquare);
+
+            // Right: move content
+            const moveContent = document.createElement('div');
+            moveContent.className = 'move-content';
+
+            const moveHeader = document.createElement('div');
+            moveHeader.className = 'move-header';
+            const moveName = document.createElement('div');
+            moveName.className = 'move-name';
+            moveName.textContent = move.name;
+            moveHeader.appendChild(moveName);
+            // Add mana cost next to the title
+            if (move.cost) {
+                const moveCost = document.createElement('span');
+                moveCost.className = 'move-cost mana-next-title';
+                moveCost.textContent = move.cost;
+                moveHeader.appendChild(moveCost);
+            }
+            moveContent.appendChild(moveHeader);
+
+            const moveDetails = document.createElement('div');
+            moveDetails.className = 'move-details';
+            if (move.input) {
+                const moveInput = document.createElement('span');
+                moveInput.className = 'move-input';
+                moveInput.innerHTML = parseMoveInputWithEmojis(move.input);
+                moveDetails.appendChild(moveInput);
+            }
+            moveContent.appendChild(moveDetails);
+
+            const moveDescription = document.createElement('div');
+            moveDescription.className = 'move-description';
+            moveDescription.textContent = move.description;
+            moveContent.appendChild(moveDescription);
+
+            moveCard.appendChild(moveContent);
+            return moveCard;   
+        }
+        
+        // --- Move Input Visual Mappings ---
+// Move visual definitions: single source of truth
+const MOVE_VISUALS = {
+    attack: { regex: /\bA\b/gi, char: 'A', class: 'move-attack' },
+    jump:   { regex: /\bJ\b/gi, char: 'J', class: 'move-jump' },
+    defense: { regex: /\bD\b/gi, char: 'D', class: 'move-defense' },
+    run:    { regex: /run/gi, char: '🏃‍♂️', class: 'move-run' }, // running emoji
+    arrowUp:    { regex: /^(\^|up)$/i, char: '🢁', class: 'move-up' },
+    arrowDown:  { regex: /^(v|down)$/i, char: '🢃', class: 'move-down' },
+    arrowLeft:  { regex: /^(<|left)$/i, char: '🢀', class: 'move-left' },
+    arrowLeftAngle: { regex: /(?<!HP )</i, char: '🢀', class: 'move-left' },
+    arrowRight: { regex: /^(>|right)$/i, char: '🢂', class: 'move-right' }
+};
+
+function parseMoveInputWithEmojis(input) {
+    if (!input) return '';
+    // Remove plus signs
+    let str = input.replace(/\+/g, '');
+    // Tokenize by spaces and keep symbols
+    const tokens = str.split(/(\s+|[><^v(),.])/).filter(Boolean);
+    const visuals = Object.values(MOVE_VISUALS);
+    const result = [];
+    for (let i = 0; i < tokens.length; i++) {
+        const token = tokens[i];
+        // Don't replace < with arrow if previous token is 'HP'
+        if (token === '<' && tokens[i - 2] && tokens[i - 2].trim() === 'HP') {
+            result.push(token);
+            continue;
+        }
+        let replaced = false;
+        for (const {regex, char, class: cls} of visuals) {
+            if (token.match(/^\s+$/)) {
+                result.push(token);
+                replaced = true;
+                break;
+            }
+            if (regex instanceof RegExp && token.match(new RegExp('^' + regex.source + '$', regex.flags))) {
+                result.push(`<span class="${cls}">${char}</span>`);
+                replaced = true;
+                break;
+            }
+        }
+        if (!replaced) result.push(token);
+    }
+    return result.join('');
+}
+// --- End utility ---
+
+// Initialize the app
+initializeApp();
+
+// Optional: Add style for keyboard keys
+(function(){
+    const style = document.createElement('style');
+    style.innerHTML = `.kbd { display: inline-block; font-family: monospace; border: 1px solid #888; border-radius: 4px; padding: 0 4px; margin: 0 1px; background: #222; color: #FFD700; font-size: 1em; }`;
+    document.head.appendChild(style);
+})();
+    </script>
+    <style>
+        .moves-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+            gap: 15px;
+        }
+        .move-card {
+            display: flex;
+            /* height: 180px; removed to allow card to grow */
+            padding: 0;
+        }
+        .move-image-square {
+            width: 180px;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #000;
+            box-shadow: none;
+            padding: 15px;
+            margin: 0;
+        }
+        .move-image-img {
+            width: 100%;
+            height: 100%;
+            max-height: 139px;
+            object-fit: contain;
+            background: transparent;
+            border-radius: 0;
+            box-shadow: none;
+            display: block;
+            margin: 0;
+            padding: 0;
+            image-rendering: pixelated;
+            image-rendering: crisp-edges;
+        }
+        .move-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 16px 20px;
+            margin: 0;
+        }
+    </style>
+</body>
+</html>
