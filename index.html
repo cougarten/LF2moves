@@ -99,6 +99,7 @@
             height: fit-content;
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
             border: 4px solid #4862bb;
+            user-select: none;
         }
         
         .character-list h2 {
@@ -124,6 +125,7 @@
             transition: all 0.3s ease;
             border: none;
             color: #6077d7;
+            user-select: none;
         }
         
         .character-item:hover {
@@ -536,7 +538,82 @@
             margin-top: 10px;
         }
         
-        @media (max-width: 768px) {
+        @media (max-width: 1410px) {
+    .empty-character-card + .empty-character-card {
+        display: none !important;
+    }
+
+    #characterList {
+        display: flex !important;
+        flex-wrap: wrap !important;
+        justify-content: center !important;
+        align-items: center !important;
+    }
+
+    .character-list {
+        display: flex !important;
+        flex-wrap: wrap !important;
+        justify-content: center !important;
+        align-items: center !important;
+    }
+    .character-image-small {
+        margin-right: 0 !important;
+    }
+    .header {
+        margin-left: 0 !important;
+    }
+    .container {
+        flex-direction: column;
+        gap: 12px;
+    }
+    .character-list {
+        width: 100% !important;
+        flex: none !important;
+        border-radius: 15px;
+        overflow-x: auto;
+        padding: 10px 0 10px 0;
+        box-sizing: border-box;
+        display: flex;
+        flex-wrap: nowrap;
+        gap: 8px;
+        margin-bottom: 12px;
+        min-width: 0;
+        white-space: nowrap;
+    }
+    .character-list h2 {
+        display: none;
+    }
+    .character-item {
+        flex: 0 0 auto;
+        min-width: 80px;
+        max-width: 120px;
+        margin-bottom: 0;
+        margin-right: 8px;
+        white-space: nowrap;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        border-radius: 10px;
+        padding: 10px 6px;
+        font-size: 0.95em;
+    }
+    .character-cards {
+        grid-template-columns: 1fr !important;
+        width: 100%;
+    }
+    .character-card {
+        width: 100% !important;
+        margin: 0 auto 16px auto;
+        border-radius: 15px;
+    }
+    .empty-character-card {
+        width: 100% !important;
+        margin: 0 auto 16px auto;
+    }
+}
+
+@media (max-width: 768px) {
             .container {
                 flex-direction: column;
             }
@@ -1105,9 +1182,14 @@
         }
         
         function toggleCharacter(characterName) {
-            selectedCharacters = selectedCharacters.filter(c => c !== characterName);
-            selectedCharacters.unshift(characterName);
-            if (selectedCharacters.length > 2) selectedCharacters.length = 2;
+            // On mobile (<1410px), only allow 1 character
+            if (window.innerWidth < 1410) {
+                selectedCharacters = [characterName];
+            } else {
+                selectedCharacters = selectedCharacters.filter(c => c !== characterName);
+                selectedCharacters.unshift(characterName);
+                if (selectedCharacters.length > 2) selectedCharacters.length = 2;
+            }
             updateCharacterList();
             renderCharacterCards();
         }
@@ -1130,12 +1212,15 @@
             characterCards.className = 'character-cards dual';
             characterCards.innerHTML = '';
             
-            for (let i = 0; i < 2; i++) {
-                if (selectedCharacters[i]) {
-                    const characterData = charactersData[selectedCharacters[i]];
-                    const characterCard = createCharacterCard(selectedCharacters[i], characterData);
+            // On mobile, only show one card (selected or empty)
+            if (window.innerWidth < 1410) {
+                // Only show one card: character if selected, otherwise empty
+                if (selectedCharacters.length > 0 && selectedCharacters[0]) {
+                    const characterData = charactersData[selectedCharacters[0]];
+                    const characterCard = createCharacterCard(selectedCharacters[0], characterData);
                     characterCards.appendChild(characterCard);
                 } else {
+                    // Only append one empty card and return
                     const emptyCard = document.createElement('div');
                     emptyCard.className = 'character-card empty-character-card';
                     emptyCard.innerHTML = `
@@ -1145,6 +1230,25 @@
                         <div class="character-name-empty">Join?</div>
                     `;
                     characterCards.appendChild(emptyCard);
+                    return;
+                }
+            } else {
+                for (let i = 0; i < 2; i++) {
+                    if (selectedCharacters[i]) {
+                        const characterData = charactersData[selectedCharacters[i]];
+                        const characterCard = createCharacterCard(selectedCharacters[i], characterData);
+                        characterCards.appendChild(characterCard);
+                    } else {
+                        const emptyCard = document.createElement('div');
+                        emptyCard.className = 'character-card empty-character-card';
+                        emptyCard.innerHTML = `
+                            <div class="character-image-empty">
+                                <span class="question-mark">?</span>
+                            </div>
+                            <div class="character-name-empty">Join?</div>
+                        `;
+                        characterCards.appendChild(emptyCard);
+                    }
                 }
             }
         }
