@@ -1730,8 +1730,8 @@
                 
                 const avatarImg = document.createElement('img');
                 avatarImg.className = 'character-image-small';
-                avatarImg.src = `pics/portrets/${currentData[characterName].image}`;
-            
+                const charImage = currentData[characterName].image;
+                avatarImg.src = charImage ? `pics/portrets/${charImage}` : createPlaceholderSVG('?');
                 
                 const name = document.createElement('div');
                 name.className = 'character-name';
@@ -1821,8 +1821,9 @@
             
             const image = document.createElement('img');
             image.className = 'character-image';
-            image.src = `pics/portrets/${characterData.image}`;
-        
+            const charImage = characterData.image;
+            image.src = charImage ? `pics/portrets/${charImage}` : createPlaceholderSVG('?');
+            
             card.appendChild(image);
             
             const header = document.createElement('h2');
@@ -1850,8 +1851,9 @@
             imageSquare.className = 'move-image-square';
             const moveImage = document.createElement('img');
             moveImage.className = 'move-image-img';
-            moveImage.src = `pics/attacks/${move.image}`;
-        
+            const attackImage = move.image;
+            moveImage.src = attackImage ? `pics/attacks/${attackImage}` : createPlaceholderSVG('?');
+            
             imageSquare.appendChild(moveImage);
             moveCard.appendChild(imageSquare);
 
@@ -1940,6 +1942,15 @@ function parseMoveInputWithEmojis(input) {
     return result.join('');
 }
 // --- End utility ---
+
+// Function to create a placeholder SVG data URL
+function createPlaceholderSVG(text = '?') {
+    const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100">
+        <rect width="100%" height="100%" fill="#000"/>
+        <text x="50%" y="50%" font-family="Arial, sans-serif" font-size="60" font-weight="bold" fill="#fff" text-anchor="middle" dominant-baseline="middle">${text}</text>
+    </svg>`;
+    return 'data:image/svg+xml,' + encodeURIComponent(svg);
+}
 
 // --- Toggle Logic ---
 let currentMode = 'remake'; // 'classic' or 'remake'
