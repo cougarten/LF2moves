@@ -1903,11 +1903,11 @@ const MOVE_VISUALS = {
     jump:   { regex: /\bJ\b/gi, char: 'J', class: 'move-jump' },
     defense: { regex: /\bD\b/gi, char: 'D', class: 'move-defense' },
     run:    { regex: /run/gi, char: '🏃‍♂️', class: 'move-run' }, // running emoji
-    arrowUp:    { regex: /^(\^|up)$/i, char: '🢁', class: 'move-up' },
-    arrowDown:  { regex: /^(v|down)$/i, char: '🢃', class: 'move-down' },
-    arrowLeft:  { regex: /^(<|left)$/i, char: '🢀', class: 'move-left' },
-    arrowLeftAngle: { regex: /(?<!HP )</i, char: '🢀', class: 'move-left' },
-    arrowRight: { regex: /^(>|right)$/i, char: '🢂', class: 'move-right' }
+    arrowUp:    { regex: /^(\^|up)$/i, char: '🔼', class: 'move-up' },
+    arrowDown:  { regex: /^(v|down)$/i, char: '🔽', class: 'move-down' },
+    arrowLeft:  { regex: /^(<|left)$/i, char: '◀️', class: 'move-left' },
+    arrowLeftAngle: { regex: /(?<!HP )</i, char: '◀️', class: 'move-left' },
+    arrowRight: { regex: /^(>|right)$/i, char: '▶️', class: 'move-right' }
 };
 
 function parseMoveInputWithEmojis(input) {
