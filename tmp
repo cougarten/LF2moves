@@ -1,0 +1,485 @@
+const charactersData = {
+    "Mark": {
+        "image": "mark.bmp",
+        "moves": [
+            {
+                "name": "Crash Punch",
+                "image": "macp.bmp",
+                "cost": "0mp",
+                "input": "D + > + A (+A)",
+                "description": "Mark gives 1 or 2 powerful punches"
+            },
+            {
+                "name": "Body Attack", 
+                "image": "maba.bmp",
+                "cost": "0mp + ...",
+                "input": "D + > + J",
+                "description": "Mark uses his shoulder as shield, with this attack he can hit several enemies"
+            }
+        ]
+    },
+    "Jack": {
+        "image": "jack.bmp",
+        "moves": [
+            {
+                "name": "Energy Blast",
+                "image": "jaeb.bmp", 
+                "cost": "10mp",
+                "input": "D + > + A",
+                "description": "Jack creates one ball of energy and fires it at an enemy"
+            },
+            {
+                "name": "Flash Kick",
+                "image": "jafk.bmp",
+                "cost": "25mp", 
+                "input": "D + ^ + A",
+                "description": "Jack kicks a couple of enemies right into the air"
+            }
+        ]
+    },
+    "Sorcerer": {
+        "image": "sorcerer.bmp",
+        "moves": [
+            {
+                "name": "Ice Blast",
+                "image": "soib.bmp",
+                "cost": "15mp",
+                "input": "D + > + A",
+                "description": "This is a very large and slow ball. If you get hit by it you will get frozen"
+            },
+            {
+                "name": "Fire Ball",
+                "image": "sofb.bmp", 
+                "cost": "20mp",
+                "input": "D + > + A",
+                "description": "If you get hit by this fireball you will be torched, if you touch somebody you will torch him too"
+            },
+            {
+                "name": "Heal (Others)",
+                "image": "soho.bmp",
+                "cost": "70mp",
+                "input": "D + ^ + J", 
+                "description": "This spell creates a sparkling field if somebody walks into it he will get healed"
+            },
+            {
+                "name": "Heal (Myself)",
+                "image": "sohm.bmp",
+                "cost": "50mp",
+                "input": "D + v + J",
+                "description": "This spell heals yourself a little"
+            }
+        ]
+    },
+    "Henry": {
+        "image": "henry.bmp",
+        "moves": [
+            {
+                "name": "Dragon Palm",
+                "image": "hedp.bmp",
+                "cost": "30mp",
+                "input": "D + > + A",
+                "description": "This spell causes a shockwave to hurt multiple enemies"
+            },
+            {
+                "name": "Multiple Shot", 
+                "image": "hems.bmp",
+                "cost": "20mp",
+                "input": "D + J + A ( + A + A...)",
+                "description": "Five arrows in one shot to hit five enemies instead of one"
+            },
+            {
+                "name": "Critical Shot",
+                "image": "hecs.bmp",
+                "cost": "40mp",
+                "input": "D + > + A",
+                "description": "A burning arrow which knocks down everything on it's way"
+            },
+            {
+                "name": "Sonata of the Death",
+                "image": "hesd.bmp",
+                "cost": "60mp",
+                "input": "D + ^ + A",
+                "description": "This beautiful melody causes an anti-gravity field where your enemies will fly around"
+            }
+        ]
+    },
+    "John": {
+        "image": "john.bmp", 
+        "moves": [
+            {
+                "name": "Energy Blast",
+                "image": "joeb.bmp",
+                "cost": "25mp",
+                "input": "D + > + A",
+                "description": "A purple energy ball to hit some enemies at range"
+            },
+            {
+                "name": "Energy Disk",
+                "image": "joed.bmp",
+                "cost": "50mp",
+                "input": "D + > + A",
+                "description": "This enemy searching disk knocks every enemy down on it's way"
+            },
+            {
+                "name": "Energy Shield",
+                "image": "joes.bmp",
+                "cost": "20mp", 
+                "input": "D + ^ + A",
+                "description": "Shield what blocks every attack and reflects energy blasts"
+            }
+        ]
+    },
+    "Deep": {
+        "image": "deep.bmp",
+        "moves": [
+            {
+                "name": "Blast",
+                "image": "deeb.bmp",
+                "cost": "15mp",
+                "input": "D + > + A ( + A + A...)",
+                "description": "A powerfull blast from his sword but it falls apart after a few yards"
+            },
+            {
+                "name": "Strike", 
+                "image": "des.bmp",
+                "cost": "10mp",
+                "input": "D + v + A ( + A + A...)",
+                "description": "This move can be used to kick all enemies who are close to you"
+            },
+            {
+                "name": "Leap Attack",
+                "image": "dela.bmp",
+                "cost": "25mp",
+                "input": "D + ^ + J + A",
+                "description": "If your enemies are jumping around slam them back to earth with this attack"
+            },
+            {
+                "name": "Dashing Strafe",
+                "image": "deds.bmp",
+                "cost": "20mp",
+                "input": "RUN + A",
+                "description": "This move is excellent to attack a group of bad guys"
+            }
+        ]
+    },
+    "Rudolf": {
+        "image": "rudolf.bmp",
+        "moves": [
+            {
+                "name": "Jump Attack",
+                "image": "rula.bmp", 
+                "cost": "15mp",
+                "input": "D + ^ + A",
+                "description": "Cut a few enemies with this great jump attack"
+            },
+            {
+                "name": "Multiple Ninja Star",
+                "image": "rumns.bmp",
+                "cost": "25mp",
+                "input": "D + > + A ( + A + A...)",
+                "description": "Throw five stars in one shot to hit 5 enemies instead of 1"
+            },
+            {
+                "name": "Transform",
+                "image": "rut.bmp",
+                "cost": "0mp",
+                "input": "Grip Other + D + J + A", 
+                "description": "This will transform you into your enemy. NOTE: once you transformed into somebody you can toggle your character without any costs with D + J + A"
+            },
+            {
+                "name": "Hide",
+                "image": "ruh.bmp",
+                "cost": "30mp",
+                "input": "D + v + A",
+                "description": "This makes you invisible, after a few seconds you will turn visible again"
+            },
+            {
+                "name": "Double",
+                "image": "rud.bmp",
+                "cost": "50mp",
+                "input": "D + J + A",
+                "description": "This spell makes 2 copies of you for extra fighting power but if they get hit they die"
+            }
+        ]
+    },
+    "Louis": {
+        "image": "louis.bmp",
+        "moves": [
+            {
+                "name": "Thunder Punch",
+                "image": "lotp1.bmp",
+                "cost": "20mp",
+                "input": "RUN + A",
+                "description": "A powerful punch to knock down a couple of enemies"
+            },
+            {
+                "name": "Thunder Punch 2",
+                "image": "lotp2.bmp",
+                "cost": "25mp",
+                "input": "RUN + J + A", 
+                "description": "A powerful punch to knock down a couple of enemies"
+            },
+            {
+                "name": "Thunder Kick",
+                "image": "lotk.bmp",
+                "cost": "30mp",
+                "input": "RUN + J",
+                "description": "This could be usefull if you want to kick a group in their faces"
+            },
+            {
+                "name": "Whirlwind Throw",
+                "image": "lowt.bmp",
+                "cost": "40mp",
+                "input": "D + ^ + J ( + J + J...)",
+                "description": "Throw an enemy to his friends with this beautiful whirlwind effect"
+            },
+            {
+                "name": "Phoenix Palm",
+                "image": "lopp.bmp",
+                "cost": "35mp",
+                "input": "D + > + A",
+                "description": "This spell creates a shockwave to the right AND to the left"
+            },
+            {
+                "name": "Armor Break",
+                "image": "lot.bmp",
+                "cost": "Special",
+                "input": "D + J + A (when HP < 33%)",
+                "description": "Louis will break out of his armor, damaging everyone near him, and transform into Louis Ex. Every piece of his armor counts as a heavy weapon"
+            }
+        ]
+    },
+    "Firen": {
+        "image": "firen.bmp",
+        "moves": [
+            {
+                "name": "Fire Ball",
+                "image": "fifb.bmp",
+                "cost": "20mp",
+                "input": "D + > + A ( + A + A)",
+                "description": "A superfast fire ball burns everything on it's way"
+            },
+            {
+                "name": "Blaze",
+                "image": "fib.bmp",
+                "cost": "15mp + ...",
+                "input": "D + v + A",
+                "description": "This attack torches you and leaves a fire behind after each step"
+            },
+            {
+                "name": "Inferno",
+                "image": "fii.bmp",
+                "cost": "30mp + ...", 
+                "input": "D + ^ + A",
+                "description": "A great flame burns your enemies"
+            },
+            {
+                "name": "Explosion",
+                "image": "fie.bmp",
+                "cost": "60mp + 8hp",
+                "input": "D + J + A",
+                "description": "An incredible explosion blows your enemies away"
+            },
+            {
+                "name": "Fuse",
+                "image": "fzav.bmp",
+                "cost": "Special",
+                "input": "RUN to Freeze (when HP < 33%)",
+                "description": "When Firen and Freeze have both less then 33% of their HP left and they RUN to each other a big explosion will follow and one of the players will gain control of the new character: Firzen"
+            }
+        ]
+    },
+    "LouisEX": {
+        "image": "louisex.bmp",
+        "moves": [
+            {
+                "name": "Thunder Punch",
+                "image": "loetp1.bmp",
+                "cost": "6mp",
+                "input": "RUN + A",
+                "description": "Enhanced version of Louis' Thunder Punch"
+            },
+            {
+                "name": "Thunder Punch 2",
+                "image": "loetp2.bmp",
+                "cost": "8mp",
+                "input": "RUN + J + A",
+                "description": "Enhanced version of Louis' Thunder Punch 2"
+            },
+            {
+                "name": "Running Attack",
+                "image": "loera.bmp",
+                "cost": "10mp",
+                "input": "Run",
+                "description": "While running he uses his staff as shield and he pierces enemies with it"
+            },
+            {
+                "name": "Phoenix Dance",
+                "image": "loepd.bmp",
+                "cost": "45mp",
+                "input": "D + v + A",
+                "description": "A couple of powerfull dashes will kick every enemy near you"
+            },
+            {
+                "name": "Phoenix Palm",
+                "image": "loepp.bmp", 
+                "cost": "35mp",
+                "input": "D + > + A",
+                "description": "Enhanced version of Louis' Phoenix Palm"
+            }
+        ]
+    },
+    "Freeze": {
+        "image": "freeze.bmp",
+        "moves": [
+            {
+                "name": "Ice Blast",
+                "image": "frib.bmp",
+                "cost": "25mp",
+                "input": "D + > + A",
+                "description": "This is a very large and slow ball. It will split in two balls if it gets hit by an energy blast"
+            },
+            {
+                "name": "Summon Sword",
+                "image": "frss.bmp",
+                "cost": "40mp",
+                "input": "D + ^ + A",
+                "description": "This spell creates a sword of ice"
+            },
+            {
+                "name": "Icicle",
+                "image": "fri.bmp",
+                "cost": "35mp",
+                "input": "D + v + A",
+                "description": "This creates 3 pilars of ice, this could be usefull to freeze a couple of enemies"
+            },
+            {
+                "name": "Whirlwind",
+                "image": "frw.bmp",
+                "cost": "60mp",
+                "input": "D + J + A",
+                "description": "A great whirlwind removes all enemies near you"
+            },
+            {
+                "name": "Fuse",
+                "image": "fzav.bmp",
+                "cost": "Special",
+                "input": "RUN to Firen (when HP < 33%)",
+                "description": "When Firen and Freeze have both less then 33% of their HP and they RUN to each other a big explosion will follow and one of the players will gain control of the new character: Firzen"
+            }
+        ]
+    },
+    "Woody": {
+        "image": "woody.bmp",
+        "moves": [
+            {
+                "name": "Flip Kick",
+                "image": "wofk.bmp",
+                "cost": "15mp",
+                "input": "D + ^ + A",
+                "description": "This attack is usefull to kick a few enemies into the air"
+            },
+            {
+                "name": "Turning Kick",
+                "image": "wotk.bmp",
+                "cost": "20mp",
+                "input": "D + > + A",
+                "description": "This attack can be used to hurt a group enemies"
+            },
+            {
+                "name": "Teleport (to Friend)",
+                "image": "wot.bmp",
+                "cost": "25mp",
+                "input": "D + v + A",
+                "description": "This moves you instantly to a friend"
+            },
+            {
+                "name": "Teleport (to Enemy)",
+                "image": "wote.bmp",
+                "cost": "25mp",
+                "input": "D + ^ + J",
+                "description": "This moves you instantly to an enemy"
+            },
+            {
+                "name": "Energy Bow",
+                "image": "woeb.bmp",
+                "cost": "30mp",
+                "input": "D + > + J",
+                "description": "This creates two powerfull energy bows"
+            },
+            {
+                "name": "Tiger Dash",
+                "image": "wotd.bmp",
+                "cost": "40mp",
+                "input": "D + J + A",
+                "description": "This very powerfull move kicks a group of enemies out of your screen"
+            }
+        ]
+    },
+    "Davis": {
+        "image": "davis.bmp",
+        "moves": [
+            {
+                "name": "Leap Attack",
+                "image": "dala.bmp",
+                "cost": "5mp",
+                "input": "D + ^ + A",
+                "description": "If your enemies are jumping around slam them back to earth with this attack"
+            },
+            {
+                "name": "Energy Blast",
+                "image": "daeb.bmp",
+                "cost": "20mp",
+                "input": "D + > + A( + A + A...)",
+                "description": "You can fire these little energy balls very fast"
+            },
+            {
+                "name": "Strafe",
+                "image": "das.bmp",
+                "cost": "25mp",
+                "input": "D + v + A",
+                "description": "A couple of punches following each other rapidly"
+            },
+            {
+                "name": "Dragon Punch",
+                "image": "dadp.bmp",
+                "cost": "30mp",
+                "input": "D + ^ + J",
+                "description": "A powerful punch slams every enemy into the air"
+            }
+        ]
+    },
+    "Dennis": {
+        "image": "dennis.bmp",
+        "moves": [
+            {
+                "name": "Energy Blast",
+                "image": "deneb.bmp",
+                "cost": "20mp",
+                "input": "D + > + A",
+                "description": "A couple of kicks following each other rapidly"
+            },
+            {
+                "name": "Strafe",
+                "image": "dens.bmp",
+                "cost": "25mp",
+                "input": "D + v + A",
+                "description": "A couple of kicks following each other rapidly"
+            },
+            {
+                "name": "Whirlwind Kick",
+                "image": "denwk.bmp",
+                "cost": "15mp + ...",
+                "input": "D + J + A",
+                "description": "With this attack you can kick lots of enemies"
+            },
+            {
+                "name": "Chasing Blast",
+                "image": "dencb.bmp",
+                "cost": "35mp",
+                "input": "D + ^ + A",
+                "description": "Energy blast chases an enemy down and blasts him away"
+            }
+        ]
+    }
+};
