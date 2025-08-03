@@ -688,6 +688,10 @@
             <span id="remakeBtn">Remake</span>
         </div>
     </div>
+    <div id="classicWarning" style="display:none; margin: 16px auto; max-width: 600px; background: #f7c873; color: #222; border: 2px solid #e1a500; border-radius: 10px; padding: 18px 24px; font-size: 1.15em; position: relative; text-align: center; box-shadow: 0 2px 12px rgba(0,0,0,0.11);">
+        <span>⚠️ moves not accurately transcribed yet for Classic Mode</span>
+        <button onclick="document.getElementById('classicWarning').style.display='none'" style="position: absolute; right: 18px; top: 10px; background: none; border: none; font-size: 1.3em; color: #222; cursor: pointer;">&times;</button>
+    </div>
     <div class="header">
         <img src="title.png" alt="Little Fighter 2" style="max-width: 600px; width: auto; height: 162px; display: block; margin: 0 auto;" />
 
@@ -726,7 +730,7 @@
                 "image": "mark.bmp",
                 "moves": [
                     {
-                        "name": "Crash Punchhhhh",
+                        "name": "Crash Punch",
                         "image": "macp.bmp",
                         "cost": "",
                         "input": "D + > + A (+A)",
@@ -1208,6 +1212,18 @@
                         "cost": "15mp",
                         "input": "D + ^ + A",
                         "description": "Energy blast chases an enemy down and blasts him away"
+                    }
+                ]
+            },
+            "More Caracters TBD": {
+                "image": "",
+                "moves": [
+                    {
+                        "name": "",
+                        "image": "",
+                        "cost": "",
+                        "input": "",
+                        "description": "Characters novel to the Remake are still missing here, sorry"
                     }
                 ]
             }
@@ -1715,7 +1731,7 @@
                 const avatarImg = document.createElement('img');
                 avatarImg.className = 'character-image-small';
                 avatarImg.src = `pics/portrets/${currentData[characterName].image}`;
-                avatarImg.alt = characterName;
+            
                 
                 const name = document.createElement('div');
                 name.className = 'character-name';
@@ -1806,7 +1822,7 @@
             const image = document.createElement('img');
             image.className = 'character-image';
             image.src = `pics/portrets/${characterData.image}`;
-            image.alt = characterName;
+        
             card.appendChild(image);
             
             const header = document.createElement('h2');
@@ -1835,7 +1851,7 @@
             const moveImage = document.createElement('img');
             moveImage.className = 'move-image-img';
             moveImage.src = `pics/attacks/${move.image}`;
-            moveImage.alt = move.name;
+        
             imageSquare.appendChild(moveImage);
             moveCard.appendChild(imageSquare);
 
@@ -1929,21 +1945,37 @@ function parseMoveInputWithEmojis(input) {
 let currentMode = 'remake'; // 'classic' or 'remake'
 let currentData = charactersDataRemake;
 
+let classicWarningDismissed = false;
 function setMode(mode) {
     if (mode === 'classic') {
         currentMode = 'classic';
         currentData = charactersData;
         document.getElementById('classicBtn').classList.add('active');
         document.getElementById('remakeBtn').classList.remove('active');
+        if (!classicWarningDismissed) {
+            const warning = document.getElementById('classicWarning');
+            if (warning) warning.style.display = '';
+        }
     } else {
         currentMode = 'remake';
         currentData = charactersDataRemake;
         document.getElementById('classicBtn').classList.remove('active');
         document.getElementById('remakeBtn').classList.add('active');
+        const warning = document.getElementById('classicWarning');
+        if (warning) warning.style.display = 'none';
     }
     renderCharacterList();
     renderCharacterCards();
 }
+// Make warning dismissable and persist until mode changes
+const warningBtn = document.querySelector('#classicWarning button');
+if (warningBtn) {
+    warningBtn.onclick = function() {
+        document.getElementById('classicWarning').style.display = 'none';
+        classicWarningDismissed = true;
+    };
+}
+
 
 document.getElementById('classicBtn').onclick = function() { setMode('classic'); };
 document.getElementById('remakeBtn').onclick = function() { setMode('remake'); };
