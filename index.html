@@ -3,7 +3,7 @@
 <head>
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=0.5, maximum-scale=1.0, user-scalable=yes">
     <title>Move-List for Little Fighter 2 - Unofficial</title>
     <style>
         .character-image {
@@ -585,8 +585,6 @@
     }
     .character-item {
         flex: 0 0 auto;
-        min-width: 80px;
-        max-width: 120px;
         margin-bottom: 0;
         margin-right: 8px;
         white-space: nowrap;
@@ -597,6 +595,7 @@
         border-radius: 10px;
         padding: 10px 6px;
         font-size: 0.95em;
+        min-width: 0;
     }
     .character-cards {
         grid-template-columns: 1fr !important;
@@ -693,7 +692,7 @@
         <button onclick="document.getElementById('classicWarning').style.display='none'" style="position: absolute; right: 18px; top: 10px; background: none; border: none; font-size: 1.3em; color: #222; cursor: pointer;">&times;</button>
     </div>
     <div class="header">
-        <img src="title.png" alt="Little Fighter 2" style="max-width: 600px; width: auto; height: 162px; display: block; margin: 0 auto;" />
+        <img src="title.png" alt="Little Fighter 2" style="max-width: 100%; width: auto; height: 162px; display: block; margin: 0 auto;" />
 
     </div>
     
@@ -1216,7 +1215,7 @@
                     }
                 ]
             },
-            "More Caracters TBD": {
+            "More TBD": {
                 "image": "",
                 "moves": [
                     {
